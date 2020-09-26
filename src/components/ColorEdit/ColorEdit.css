@@ -1,9 +1,20 @@
 .ColorEdit {
   position: absolute;
-  top: 100px;
-  border: 1px solid gray;
+  top: 80px;
   padding: 15px;
   min-width: 150px;
+  box-shadow: 0px 5px 10px 10px rgba(0,0,0,0.1);
+}
+
+.ColorEdit__triangle {
+  border: 10px solid transparent;
+  border-top: 10px solid white;
+  transform: rotate(180deg);
+
+  position: absolute;
+  z-index: 2;
+  top: -20px;
+  right: 70px;
 }
 
 .ColorEdit__range {
@@ -40,4 +51,36 @@
 
 .ColorEdit__range_blue {
   background: linear-gradient(90deg, #000000 0%, #0000ff 100%);
+}
+
+.ColorEdit__buttons {
+  margin-top: 10px;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.ColorEdit__button {
+  text-transform: uppercase;
+  border: 1px solid grey;
+  border-radius: 2px;
+  font-weight: bold;
+  cursor: pointer;
+  opacity: 0.6;
+  transition: opacity 0.5s;
+}
+
+.ColorEdit__button:hover {
+  opacity: 1;
+}
+
+.ColorEdit__button_cancel {
+  margin-right: 10px;
+  background: #dfdfdf;
+  color: grey;
+}
+
+.ColorEdit__button_ok {
+  color: white;
+  background: #00c455;
 }

@@ -9,10 +9,17 @@ export const ColorEdit = ({
   setActiveRed,
   setActiveBlue,
   setActiveGreen,
+  setColor,
+  color,
+  setValue,
+  value,
+  setIsColorEdit,
 }) => {
+  console.log("value", value)
 
   return (
     <section className="ColorEdit">
+      <div className="ColorEdit__triangle" />
       <input
         className="ColorEdit__range ColorEdit__range_red"
         type="range"
@@ -46,6 +53,26 @@ export const ColorEdit = ({
         }}
         value={activeBlue}
       />
+      <div className="ColorEdit__buttons">
+        <button
+          className="ColorEdit__button ColorEdit__button_cancel"
+          onClick={() => {
+            setColor(value);
+            setIsColorEdit(false);
+          }}
+        >
+          cancel
+        </button>
+        <button
+          className="ColorEdit__button ColorEdit__button_ok"
+          onClick={() => {
+            setValue(color);
+            setIsColorEdit(false);
+          }}
+        >
+          ok
+        </button>
+      </div>
     </section>
   )
 }

@@ -1,47 +1,12 @@
 /* eslint-disable */
-
 import React, { useState } from 'react';
 import './SelectColor.css';
 
-export const SelectColor = ({ setRed, setBlue, setGreen}) => {
-
-  const colors = [
-    {
-      name: 'red',
-      RGB: {
-        red: 255,
-        blue: 0,
-        green: 0,
-      },
-    },
-    {
-      name: 'yellow',
-      RGB: {
-        red: 255,
-        blue: 0,
-        green: 255,
-      },
-    },
-    {
-      name: 'blue',
-      RGB: {
-        red: 0,
-        blue: 255,
-        green: 0,
-      },
-    },
-    {
-      name: 'green',
-      RGB: {
-        red: 0,
-        blue: 0,
-        green: 255,
-      },
-    }
-  ]
+export const SelectColor = ({ colors, setRed, setBlue, setGreen }) => {
 
   return (
     <section className="SelectColor">
+      <div className="SelectColor__triangle" />
       {colors.map((color) => (
         <div
           className="SelectColor__item"
