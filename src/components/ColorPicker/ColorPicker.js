@@ -1,26 +1,17 @@
-/* eslint-disable */
 import React, { useState, useEffect } from 'react';
 import './ColorPicker.css';
 
-import { SelectColor } from '../SelectColor/SelectColor';
-import { ColorEdit } from '../ColorEdit/ColorEdit';
+import { ColorChangeWindow } from '../ColorChangeWindow/ColorChangeWindow';
 
 export const ColorPicker = () => {
-  const [red, setRed] = useState(
-    Number(localStorage.getItem('red'))
-      || 0
-  );
-  const [blue, setBlue] = useState(
-    Number(localStorage.getItem('blue'))
-      || 0
-  );
-  const [green, setGreen] = useState(
-    Number(localStorage.getItem('green'))
-      || 0
-  );
-
   const [isColorSelect, setIsColorSelect] = useState(false);
   const [isColorEdit, setIsColorEdit] = useState(false);
+
+  const [value, setValue] = useState(
+    localStorage.getItem('colorValue') || '#000000',
+  );
+  const [intermediateColor, setIntermediateColor] = useState(value);
+  const [color, setColor] = useState(value);
 
   const colors = [
     {
@@ -54,64 +45,19 @@ export const ColorPicker = () => {
         blue: 0,
         green: 255,
       },
-    }
-  ]
-
-  const colorTransition = (color) => {
-    if (color.toString(16).length === 1) {
-      return `0${color.toString(16)}`
-    }
-    else {
-      return `${color.toString(16)}`
-    }
-  }
-
-  const [color, setColor] = useState( localStorage.getItem('value') || `#${
-    colorTransition(red)
-  }${
-    colorTransition(green)
-  }${
-    colorTransition(blue)
-  }`);
-
-  const [value, setValue] = useState(color);
-
-  const closeChoiceColor = (event) => {
-    if (
-      !(event.target.closest('.SelectColor'))
-        && !(event.target.closest('.ColorPicker__triangle-box'))
-        && !(event.target.closest('.ColorPicker__color-item'))
-        && !(event.target.closest('.ColorEdit'))
-      ) {
-        setIsColorSelect(false);
-        setIsColorEdit(false);
-        setColor(localStorage.getItem('value'))
-      }
-    }
+    },
+  ];
 
   useEffect(() => {
-    document.addEventListener('click', closeChoiceColor)
-
-    return () => {
-      document.removeEventListener('click', closeChoiceColor)
+    if (!isColorEdit) {
+      setColor(value);
+    } else {
+      setColor(intermediateColor);
     }
-  }, [])
+  }, [intermediateColor, value]);
 
   useEffect(() => {
-    setColor(`#${
-      colorTransition(red)
-    }${
-      colorTransition(green)
-    }${
-      colorTransition(blue)
-    }`);
-    localStorage.setItem('red', red);
-    localStorage.setItem('green', green);
-    localStorage.setItem('blue', blue);
-  }, [red, green, blue]);
-
-  useEffect(() => {
-    localStorage.setItem('value', value);
+    localStorage.setItem('colorValue', value);
   }, [value]);
 
   return (
@@ -119,35 +65,6 @@ export const ColorPicker = () => {
       <div
         className="ColorPicker__unit"
       >
-        {
-          isColorSelect && (
-            <SelectColor
-              setRed={setRed}
-              setBlue={setBlue}
-              setGreen={setGreen}
-              colors={colors}
-            />
-          )
-        }
-
-        {
-          isColorEdit && (
-            <ColorEdit
-              activeRed={red}
-              activeBlue={blue}
-              activeGreen={green}
-              setActiveRed={setRed}
-              setActiveBlue={setBlue}
-              setActiveGreen={setGreen}
-              setColor={setColor}
-              color={color}
-              setValue={setValue}
-              value={value}
-              setIsColorEdit={setIsColorEdit}
-            />
-          )
-        }
-
         <div className="ColorPicker__name">
           {color}
         </div>
@@ -163,9 +80,7 @@ export const ColorPicker = () => {
         >
           <div
             className="ColorPicker__color-item"
-            style={{
-              background: color,
-            }}
+            style={{background: color}}
           />
         </div>
 
@@ -181,6 +96,17 @@ export const ColorPicker = () => {
           <div className="ColorPicker__triangle-item" />
         </div>
       </div>
+      <ColorChangeWindow
+        value={value}
+        setValue={setValue}
+        isColorSelect={isColorSelect}
+        setIsColorSelect={setIsColorSelect}
+        isColorEdit={isColorEdit}
+        setIsColorEdit={setIsColorEdit}
+        colors={colors}
+        setIntermediateColor={setIntermediateColor}
+        intermediateColor={intermediateColor}
+      />
     </section>
   );
 };

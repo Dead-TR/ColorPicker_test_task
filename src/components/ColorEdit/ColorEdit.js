@@ -1,25 +1,40 @@
-/* eslint-disable */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import './ColorEdit.css';
 
 export const ColorEdit = ({
-  activeRed,
-  activeBlue,
-  activeGreen,
-  setActiveRed,
-  setActiveBlue,
-  setActiveGreen,
-  setColor,
-  color,
   setValue,
   value,
   setIsColorEdit,
+  colorTransition,
+  setIntermediateColor,
+  intermediateColor,
 }) => {
-  console.log("value", value)
+
+  const [red, setRed] = useState(
+    parseInt(value.substring(1, 3), 16),
+  );
+  const [green, setGreen] = useState(
+    parseInt(value.substring(3, 5), 16),
+  );
+  const [blue, setBlue] = useState(
+    parseInt(value.substring(7, 5), 16),
+  );
+
+  useEffect(() => {
+    setIntermediateColor(`#${
+      colorTransition(red)
+    }${
+      colorTransition(green)
+    }${
+      colorTransition(blue)
+    }`);
+  }, [red, green, blue]);
 
   return (
     <section className="ColorEdit">
       <div className="ColorEdit__triangle" />
+
       <input
         className="ColorEdit__range ColorEdit__range_red"
         type="range"
@@ -27,9 +42,9 @@ export const ColorEdit = ({
         max="255"
         step="1"
         onChange={(event) => {
-          setActiveRed(Number(event.target.value))
+          setRed(Number(event.target.value))
         }}
-        value={activeRed}
+        value={red}
       />
       <input
         className="ColorEdit__range ColorEdit__range_green"
@@ -38,9 +53,9 @@ export const ColorEdit = ({
         max="255"
         step="1"
         onChange={(event) => {
-          setActiveGreen(Number(event.target.value))
+          setGreen(Number(event.target.value))
         }}
-        value={activeGreen}
+        value={green}
       />
       <input
         className="ColorEdit__range ColorEdit__range_blue"
@@ -49,24 +64,26 @@ export const ColorEdit = ({
         max="255"
         step="1"
         onChange={(event) => {
-          setActiveBlue(Number(event.target.value))
+          setBlue(Number(event.target.value))
         }}
-        value={activeBlue}
+        value={blue}
       />
+
       <div className="ColorEdit__buttons">
         <button
           className="ColorEdit__button ColorEdit__button_cancel"
           onClick={() => {
-            setColor(value);
+            setIntermediateColor(value)
             setIsColorEdit(false);
           }}
         >
           cancel
         </button>
+
         <button
           className="ColorEdit__button ColorEdit__button_ok"
           onClick={() => {
-            setValue(color);
+            setValue(intermediateColor);
             setIsColorEdit(false);
           }}
         >
@@ -76,3 +93,12 @@ export const ColorEdit = ({
     </section>
   )
 }
+
+ColorEdit.propTypes = {
+  setValue: PropTypes.func.isRequired,
+  value: PropTypes.string.isRequired,
+  setIsColorEdit: PropTypes.func.isRequired,
+  colorTransition: PropTypes.func.isRequired,
+  setIntermediateColor: PropTypes.func.isRequired,
+  intermediateColor: PropTypes.string.isRequired,
+};

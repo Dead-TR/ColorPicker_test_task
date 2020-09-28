@@ -24,6 +24,7 @@
 
 .ColorPicker__name {
   text-transform: uppercase;
+  width: 50px;
 }
 
 .ColorPicker__color-box {

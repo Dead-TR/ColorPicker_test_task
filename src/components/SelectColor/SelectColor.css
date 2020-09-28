@@ -1,9 +1,10 @@
 .SelectColor {
   position: absolute;
-  top:75px;
+  top: 15px;
   margin-right: -25px;
   min-width: 175px;
   box-shadow: 0px 5px 10px 10px rgba(0,0,0,0.1);
+  background: white;
 }
 
 .SelectColor :last-child {
@@ -18,7 +19,7 @@
   position: absolute;
   z-index: 2;
   top: -20px;
-  right: 20px;
+  right: 15px;
 }
 
 .SelectColor__item {
